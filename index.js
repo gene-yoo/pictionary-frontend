@@ -18,7 +18,7 @@ let xClicks = [];
 let yClicks = [];
 let dragClicks = [];
 
-let currentGameId = 1;
+let currentGameId;
 let currentPlayerUsername;
 let currentPlayerId;
 let currentDrawerId;
@@ -38,7 +38,8 @@ const newUser = function(ev) {
 	ev.preventDefault();
 
 	let username = document.getElementById("username").value;
-	let playerData = { username: username };
+	currentGameId = document.getElementById("game").value;
+	let playerData = { username: username, game_id: currentGameId };
 	let headers = {
 		Accept: "application/json",
 		"Content-Type": "application/json"
@@ -50,6 +51,7 @@ const newUser = function(ev) {
 	})
 		.then(res => res.json())
 		.then(json => {
+			debugger;
 			currentPlayerUsername = json.username;
 			currentPlayerId = json.id;
 			setupGame();
@@ -193,7 +195,7 @@ const getGameInfo = function() {
 	fetch(gamesURL + currentGameId)
 		.then(res => res.json())
 		.then(res => {
-			renderImage(res);
+			// renderImage(res);
 			renderMessages(res);
 			renderKeyword(res);
 		});
