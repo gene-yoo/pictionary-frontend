@@ -5,12 +5,20 @@
     <title></title>
   </head>
   <body>
+    <div>
+
+      <form id="new_user">
+        <label for="username">Enter a Username to Play</label>
+        <input id="username" type="text" name="username" value="">
+        <button type="submit" name="submit">Submit</button>
+      </form>
+    </div>
     <div class="center">
-      <canvas id="canvas" width="490" height="220"></canvas>
+      <canvas id="canvas" width="490" height="220" hidden></canvas>
       <br>
-      <button type="button" name="button" onclick="createNewImage()">Create New Image</button>
-      <button type="button" name="button" onclick="submitImage()">Submit Image</button>
-      <button type="button" name="button" onclick="getImage()">Get Latest Image</button>
+      <button type="button" name="button" onclick="createNewImage()" hidden>Create New Image</button>
+      <button type="button" name="button" onclick="submitImage()" hidden>Submit Image</button>
+      <button type="button" name="button" onclick="getImage()" hidden>Get Latest Image</button>
     </div>
     <script src = "index.js">
     </script>

@@ -1,11 +1,15 @@
 let context = document.getElementById("canvas").getContext("2d");
 let canvas = document.getElementById("canvas");
+let form = document.getElementById("new_user");
 let currentColor = "black";
 let paint = false;
 let xClicks = [];
 let yClicks = [];
 let dragClicks = [];
 
+let currentUser;
+
+let playerURL = "https://pictionaryapi.herokuapp.com/api/v1/players";
 let getURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
 // let postURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
 let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images";
@@ -14,7 +18,12 @@ let putURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
 // game setup ----------------------------------------------------------------
 
 const setupGame = function() {
+	canvas.removeAttribute("hidden");
+	let buttons = document.querySelectorAll("button");
+	buttons.forEach(button => button.removeAttribute("hidden"));
+	form.setAttribute("hidden", true);
 	drawCanvas();
+	addListeners();
 };
 
 const drawCanvas = function() {
@@ -162,6 +171,29 @@ const renderImage = function(res) {
 // doc ready
 
 document.addEventListener("DOMContentLoaded", () => {
-	setupGame();
-	addListeners();
+	form.addEventListener("submit", ev => {
+		newUser(ev);
+	});
+	// setupGame();
 });
+
+const newUser = function(ev) {
+	ev.preventDefault();
+
+	let username = document.getElementById("username").value;
+	let playerData = { username: username };
+	let headers = {
+		Accept: "application/json",
+		"Content-Type": "application/json"
+	};
+	fetch(playerURL, {
+		method: "post",
+		body: JSON.stringify(playerData),
+		headers: headers
+	})
+		.then(res => res.json())
+		.then(json => {
+			currentUser = json.username;
+			setupGame();
+		});
+};
