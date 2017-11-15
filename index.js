@@ -195,7 +195,7 @@ const getGameInfo = function() {
 	fetch(gamesURL + currentGameId)
 		.then(res => res.json())
 		.then(res => {
-			// renderImage(res);
+			renderImage(res);
 			renderMessages(res);
 			renderKeyword(res);
 		});
