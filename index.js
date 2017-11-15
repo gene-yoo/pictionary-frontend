@@ -1,13 +1,14 @@
 let context = document.getElementById("canvas").getContext("2d");
 let canvas = document.getElementById("canvas");
 
+let main = document.getElementById("main");
 let form = document.getElementById("new_user");
 let image = document.getElementById("image");
+
 let messageForm = document.getElementById("message_form");
 let messageText = document.getElementById("message_text");
 let allMessages = document.getElementById("all_messages");
 let chatroom = document.getElementById("chatroom");
-let main = document.getElementById("main");
 
 let currentImageId;
 let currentColor = "black";
@@ -17,10 +18,15 @@ let yClicks = [];
 let dragClicks = [];
 
 let currentUser;
-let playerURL = "https://pictionaryapi.herokuapp.com/api/v1/players";
-let gamesURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
-let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
-let messagesURL = "https://pictionaryapi.herokuapp.com/api/v1/messages/";
+let currentUserId;
+// let playerURL = "https://pictionaryapi.herokuapp.com/api/v1/players";
+// let gamesURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
+// let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
+// let messagesURL = "https://pictionaryapi.herokuapp.com/api/v1/messages/";
+let playerURL = "http://localhost:3000/api/v1/players";
+let gamesURL = "http://localhost:3000/api/v1/games/";
+let imagesURL = "http://localhost:3000/api/v1/images/";
+let messagesURL = "http://localhost:3000/api/v1/messages/";
 
 // game setup ----------------------------------------------------------------
 
@@ -41,6 +47,7 @@ const newUser = function(ev) {
 		.then(res => res.json())
 		.then(json => {
 			currentUser = json.username;
+			currentUserId = json.id;
 			setupGame();
 		});
 };
@@ -106,11 +113,8 @@ const handleMouseLeave = function(ev) {
 const handleMessageSubmit = function(ev) {
 	ev.preventDefault();
 	let text = messageText.value;
-	// let message = document.createElement("li");
-	// message.innerText = messageText.value;
-	// messageText.value = "";
-	// allMessages.querySelector("ul").appendChild(message);
-	submitMessages(text);
+	console.log(text);
+	submitMessage(text);
 };
 
 // draw functions ----------------------------------------------------------------
@@ -139,9 +143,9 @@ const redraw = function() {
 	}
 };
 
-const setCurrentColor = function(color) {
-	currentColor = color;
-};
+// const setCurrentColor = function(color) {
+// 	currentColor = color;
+// };
 
 // fetch requests ----------------------------------------------------------------
 
@@ -183,16 +187,21 @@ const submitImage = function() {
 		.then(res => console.log(res));
 };
 
-const getImage = function() {
+const getGameInfo = function() {
 	let gameId = 1;
 	fetch(gamesURL + gameId)
 		.then(res => res.json())
-		.then(res => renderImage(res));
+		.then(res => {
+			renderImage(res);
+			renderMessages(res);
+		});
 };
 
 const submitMessage = function(text) {
-	let playerId = 1;
-	let content = text;
+	let gameId = 1;
+	let content = {
+		message: { content: text, game_id: gameId, player_id: currentUserId }
+	};
 	let headers = {
 		Accept: "application/json",
 		"Content-Type": "application/json"
@@ -204,7 +213,7 @@ const submitMessage = function(text) {
 		headers: headers
 	})
 		.then(res => res.json())
-		.then(res => console.log(res));
+		.then(res => console.log(res.guessed_correctly));
 };
 
 // render objects ----------------------------------------------------------------
@@ -216,6 +225,13 @@ const renderImage = function(res) {
 	image.dataset.game_id = res.id;
 	image.setAttribute("id", res.currentImageId);
 	image.src = res.currentImageURL;
+};
+
+const renderMessages = function(res) {
+	let messages = res.recentMessages;
+	allMessages.innerHTML = `<ul>${messages
+		.map(msg => `<li>${msg.player_username} - ${msg.content}</li>`)
+		.join("")}</ul>`;
 };
 
 // doc ready ----------------------------------------------------------------
