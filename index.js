@@ -22,15 +22,16 @@ let currentGameId;
 let currentPlayerUsername;
 let currentPlayerId;
 let currentDrawerId;
+let currentDrawerUsername;
 
-let playerURL = "https://pictionaryapi.herokuapp.com/api/v1/players";
-let gamesURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
-let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
-let messagesURL = "https://pictionaryapi.herokuapp.com/api/v1/messages/";
-// let playerURL = "http://localhost:3000/api/v1/players";
-// let gamesURL = "http://localhost:3000/api/v1/games/";
-// let imagesURL = "http://localhost:3000/api/v1/images/";
-// let messagesURL = "http://localhost:3000/api/v1/messages/";
+// let playerURL = "https://pictionaryapi.herokuapp.com/api/v1/players";
+// let gamesURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
+// let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
+// let messagesURL = "https://pictionaryapi.herokuapp.com/api/v1/messages/";
+let playerURL = "http://localhost:3000/api/v1/players";
+let gamesURL = "http://localhost:3000/api/v1/games/";
+let imagesURL = "http://localhost:3000/api/v1/images/";
+let messagesURL = "http://localhost:3000/api/v1/messages/";
 
 // game setup ----------------------------------------------------------------
 
@@ -232,10 +233,12 @@ const updateDrawer = function() {
 	};
 
 	fetch(gamesURL + currentGameId, {
-		method: 'patch',
+		method: "put",
 		body: JSON.stringify(body),
 		headers: headers
-	}.then(res => res.json()).then(res => console.log(res))
+	})
+		.then(res => res.json())
+		.then(res => console.log(res));
 };
 
 // render objects ----------------------------------------------------------------
@@ -243,6 +246,7 @@ const updateDrawer = function() {
 const renderGameInfo = function(res) {
 	console.log(res);
 	currentDrawerId = res.currentDrawerId;
+	currentDrawerUsername = res.currentDrawerUsername;
 	currentImageId = res.currentImageId;
 	currentKeyword = res.currentKeyword;
 	renderMessages(res);
@@ -252,7 +256,7 @@ const renderGameInfo = function(res) {
 const renderGamePrompt = function(res) {
 	console.log(res);
 	if (currentDrawerId !== currentPlayerId) {
-		keyword.innerText = `Current Drawer Id is ${currentDrawerId}.`;
+		keyword.innerText = `Current Drawer is ${currentDrawerUsername}.`;
 		renderImage(res);
 	} else {
 		keyword.innerText = `You are the drawer! Keyword is: ${res.currentKeyword}`;
