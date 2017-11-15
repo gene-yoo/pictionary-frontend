@@ -1,6 +1,9 @@
 let context = document.getElementById("canvas").getContext("2d");
 let canvas = document.getElementById("canvas");
 let image = document.getElementById("image");
+let messageForm = document.getElementById("message_form");
+let messageText = document.getElementById("message_text");
+let allMessages = document.getElementById("all_messages");
 
 let currentImageId;
 let currentColor = "black";
@@ -10,6 +13,7 @@ let yClicks = [];
 let dragClicks = [];
 let gamesURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
 let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
+let messagesURL = "https://pictionaryapi.herokuapp.com/api/v1/messages/";
 
 // game setup ----------------------------------------------------------------
 
@@ -30,6 +34,7 @@ const addListeners = function() {
 	canvas.addEventListener("mousemove", handleMouseMove);
 	canvas.addEventListener("mouseup", handleMouseUp);
 	canvas.addEventListener("mouseleave", handleMouseLeave);
+	messageForm.addEventListener("submit", handleMessageSubmit);
 };
 
 // event handlers ----------------------------------------------------------------
@@ -63,6 +68,16 @@ const handleMouseUp = function(ev) {
 
 const handleMouseLeave = function(ev) {
 	paint = false;
+};
+
+const handleMessageSubmit = function(ev) {
+	ev.preventDefault();
+	let text = messageText.value;
+	// let message = document.createElement("li");
+	// message.innerText = messageText.value;
+	// messageText.value = "";
+	// allMessages.querySelector("ul").appendChild(message);
+	submitMessages(text);
 };
 
 // draw functions ----------------------------------------------------------------
@@ -140,6 +155,23 @@ const getImage = function() {
 	fetch(gamesURL + gameId)
 		.then(res => res.json())
 		.then(res => renderImage(res));
+};
+
+const submitMessage = function(text) {
+	let playerId = 1;
+	let content = text;
+	let headers = {
+		Accept: "application/json",
+		"Content-Type": "application/json"
+	};
+
+	fetch(messagesURL, {
+		method: "post",
+		body: JSON.stringify(content),
+		headers: headers
+	})
+		.then(res => res.json())
+		.then(res => console.log(res));
 };
 
 // render objects ----------------------------------------------------------------

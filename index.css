@@ -1,1 +1,15 @@
+#chatroom {
+	width: 490px;
+	height: 220px;
+	background-color: yellow;
+}
 
+.chat {
+	display: block;
+}
+
+#all_messages {
+	width: 490px;
+	height: 200px;
+	background-color: linen;
+}
