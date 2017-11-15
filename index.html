@@ -5,14 +5,14 @@
     <title></title>
   </head>
   <body>
-    <div class="center">
+    <div id="main" class="center">
       <canvas id="canvas" width="490" height="220"></canvas>
-      <br>
-      <button type="button" name="button" onclick="createNewImage()">Create New Image</button>
-      <button type="button" name="button" onclick="submitImage()">Submit Image</button>
-      <button type="button" name="button" onclick="getImage()">Get Latest Image</button>
+      <img id="image" width="490" height="220" hidden></img>
     </div>
-    <script src = "index.js">
-    </script>
+    <br>
+    <button type="button" name="button" onclick="createNewImage()">Create New Image</button>
+    <button type="button" name="button" onclick="submitImage()">Submit Image</button>
+    <button type="button" name="button" onclick="getImage()">Get Latest Image</button>
+    <script src = "index.js"></script>
   </body>
 </html>

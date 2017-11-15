@@ -1,15 +1,15 @@
 let context = document.getElementById("canvas").getContext("2d");
 let canvas = document.getElementById("canvas");
+let image = document.getElementById("image");
+
+let currentImageId;
 let currentColor = "black";
 let paint = false;
 let xClicks = [];
 let yClicks = [];
 let dragClicks = [];
-
-let getURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
-// let postURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
-let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images";
-let putURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
+let gamesURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
+let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
 
 // game setup ----------------------------------------------------------------
 
@@ -96,19 +96,16 @@ const setCurrentColor = function(color) {
 };
 
 // fetch requests ----------------------------------------------------------------
-let imageId;
+
 const createNewImage = function() {
 	let dataURL = canvas.toDataURL();
 	console.log("dataURL:", dataURL);
-
 	let gameId = 1;
-
 	let drawing = { data_url: dataURL, game_id: gameId };
 	let headers = {
 		Accept: "application/json",
 		"Content-Type": "application/json"
 	};
-
 	fetch(imagesURL, {
 		method: "post",
 		body: JSON.stringify(drawing),
@@ -117,22 +114,19 @@ const createNewImage = function() {
 		.then(res => res.json())
 		.then(res => {
 			console.log(res);
-			imageId = res.id;
+			currentImageId = res.id;
 		});
-	setInterval(submitImage, 300);
 };
 
 const submitImage = function() {
 	let dataURL = canvas.toDataURL();
-
 	let gameId = 1;
 	let drawing = { data_url: dataURL, game_id: gameId };
 	let headers = {
 		Accept: "application/json",
 		"Content-Type": "application/json"
 	};
-
-	fetch(putURL + imageId, {
+	fetch(imagesURL + currentImageId, {
 		method: "put",
 		body: JSON.stringify(drawing),
 		headers: headers
@@ -143,8 +137,7 @@ const submitImage = function() {
 
 const getImage = function() {
 	let gameId = 1;
-
-	fetch(getURL + gameId)
+	fetch(gamesURL + gameId)
 		.then(res => res.json())
 		.then(res => renderImage(res));
 };
@@ -152,16 +145,19 @@ const getImage = function() {
 // render objects ----------------------------------------------------------------
 
 const renderImage = function(res) {
-	let newImg = document.createElement("img");
-	newImg.dataset.game_id = res.id;
-	newImg.setAttribute("id", res.id);
-	newImg.src = res.currentImageURL;
-	document.body.appendChild(newImg);
+	console.log(res);
+	canvas.setAttribute("hidden", true);
+	image.removeAttribute("hidden");
+	image.dataset.game_id = res.id;
+	image.setAttribute("id", res.currentImageId);
+	image.src = res.currentImageURL;
 };
 
-// doc ready
+// doc ready ----------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
 	setupGame();
 	addListeners();
+	// setInterval(getImage, 5);
+	// submitImage(getImage, 5);
 });
