@@ -21,15 +21,16 @@ let dragClicks = [];
 let currentGameId = 1;
 let currentPlayerUsername;
 let currentPlayerId;
+let currentDrawerId;
 
-let playerURL = "https://pictionaryapi.herokuapp.com/api/v1/players";
-let gamesURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
-let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
-let messagesURL = "https://pictionaryapi.herokuapp.com/api/v1/messages/";
-// let playerURL = "http://localhost:3000/api/v1/players";
-// let gamesURL = "http://localhost:3000/api/v1/games/";
-// let imagesURL = "http://localhost:3000/api/v1/images/";
-// let messagesURL = "http://localhost:3000/api/v1/messages/";
+// let playerURL = "https://pictionaryapi.herokuapp.com/api/v1/players";
+// let gamesURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
+// let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
+// let messagesURL = "https://pictionaryapi.herokuapp.com/api/v1/messages/";
+let playerURL = "http://localhost:3000/api/v1/players";
+let gamesURL = "http://localhost:3000/api/v1/games/";
+let imagesURL = "http://localhost:3000/api/v1/images/";
+let messagesURL = "http://localhost:3000/api/v1/messages/";
 
 // game setup ----------------------------------------------------------------
 
@@ -241,10 +242,6 @@ const renderMessages = function(res) {
 	allMessages.innerHTML = `<ul>${messages
 		.map(msg => `<li>${msg.player_username} - ${msg.content}</li>`)
 		.join("")}</ul>`;
-};
-
-const renderKeyword = function(res) {
-	keyword.innerText = res.currentKeyword;
 };
 
 // doc ready ----------------------------------------------------------------
