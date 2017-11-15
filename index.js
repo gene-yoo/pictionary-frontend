@@ -1,6 +1,15 @@
 let context = document.getElementById("canvas").getContext("2d");
 let canvas = document.getElementById("canvas");
+
 let form = document.getElementById("new_user");
+let image = document.getElementById("image");
+let messageForm = document.getElementById("message_form");
+let messageText = document.getElementById("message_text");
+let allMessages = document.getElementById("all_messages");
+let chatroom = document.getElementById("chatroom");
+let main = document.getElementById("main");
+
+let currentImageId;
 let currentColor = "black";
 let paint = false;
 let xClicks = [];
@@ -8,20 +17,39 @@ let yClicks = [];
 let dragClicks = [];
 
 let currentUser;
-
 let playerURL = "https://pictionaryapi.herokuapp.com/api/v1/players";
-let getURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
-// let postURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
-let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images";
-let putURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
+let gamesURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
+let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
+let messagesURL = "https://pictionaryapi.herokuapp.com/api/v1/messages/";
 
 // game setup ----------------------------------------------------------------
 
+const newUser = function(ev) {
+	ev.preventDefault();
+
+	let username = document.getElementById("username").value;
+	let playerData = { username: username };
+	let headers = {
+		Accept: "application/json",
+		"Content-Type": "application/json"
+	};
+	fetch(playerURL, {
+		method: "post",
+		body: JSON.stringify(playerData),
+		headers: headers
+	})
+		.then(res => res.json())
+		.then(json => {
+			currentUser = json.username;
+			setupGame();
+		});
+};
+
 const setupGame = function() {
-	canvas.removeAttribute("hidden");
-	let buttons = document.querySelectorAll("button");
-	buttons.forEach(button => button.removeAttribute("hidden"));
+	main.removeAttribute("hidden");
+	chatroom.removeAttribute("hidden");
 	form.setAttribute("hidden", true);
+
 	drawCanvas();
 	addListeners();
 };
@@ -39,6 +67,7 @@ const addListeners = function() {
 	canvas.addEventListener("mousemove", handleMouseMove);
 	canvas.addEventListener("mouseup", handleMouseUp);
 	canvas.addEventListener("mouseleave", handleMouseLeave);
+	messageForm.addEventListener("submit", handleMessageSubmit);
 };
 
 // event handlers ----------------------------------------------------------------
@@ -74,6 +103,16 @@ const handleMouseLeave = function(ev) {
 	paint = false;
 };
 
+const handleMessageSubmit = function(ev) {
+	ev.preventDefault();
+	let text = messageText.value;
+	// let message = document.createElement("li");
+	// message.innerText = messageText.value;
+	// messageText.value = "";
+	// allMessages.querySelector("ul").appendChild(message);
+	submitMessages(text);
+};
+
 // draw functions ----------------------------------------------------------------
 
 const addClicks = function(x, y, drag) {
@@ -105,19 +144,16 @@ const setCurrentColor = function(color) {
 };
 
 // fetch requests ----------------------------------------------------------------
-let imageId;
+
 const createNewImage = function() {
 	let dataURL = canvas.toDataURL();
 	console.log("dataURL:", dataURL);
-
 	let gameId = 1;
-
 	let drawing = { data_url: dataURL, game_id: gameId };
 	let headers = {
 		Accept: "application/json",
 		"Content-Type": "application/json"
 	};
-
 	fetch(imagesURL, {
 		method: "post",
 		body: JSON.stringify(drawing),
@@ -126,22 +162,19 @@ const createNewImage = function() {
 		.then(res => res.json())
 		.then(res => {
 			console.log(res);
-			imageId = res.id;
+			currentImageId = res.id;
 		});
-	setInterval(submitImage, 300);
 };
 
 const submitImage = function() {
 	let dataURL = canvas.toDataURL();
-
 	let gameId = 1;
 	let drawing = { data_url: dataURL, game_id: gameId };
 	let headers = {
 		Accept: "application/json",
 		"Content-Type": "application/json"
 	};
-
-	fetch(putURL + imageId, {
+	fetch(imagesURL + currentImageId, {
 		method: "put",
 		body: JSON.stringify(drawing),
 		headers: headers
@@ -152,48 +185,43 @@ const submitImage = function() {
 
 const getImage = function() {
 	let gameId = 1;
-
-	fetch(getURL + gameId)
+	fetch(gamesURL + gameId)
 		.then(res => res.json())
 		.then(res => renderImage(res));
+};
+
+const submitMessage = function(text) {
+	let playerId = 1;
+	let content = text;
+	let headers = {
+		Accept: "application/json",
+		"Content-Type": "application/json"
+	};
+
+	fetch(messagesURL, {
+		method: "post",
+		body: JSON.stringify(content),
+		headers: headers
+	})
+		.then(res => res.json())
+		.then(res => console.log(res));
 };
 
 // render objects ----------------------------------------------------------------
 
 const renderImage = function(res) {
-	let newImg = document.createElement("img");
-	newImg.dataset.game_id = res.id;
-	newImg.setAttribute("id", res.id);
-	newImg.src = res.currentImageURL;
-	document.body.appendChild(newImg);
+	console.log(res);
+	canvas.setAttribute("hidden", true);
+	image.removeAttribute("hidden");
+	image.dataset.game_id = res.id;
+	image.setAttribute("id", res.currentImageId);
+	image.src = res.currentImageURL;
 };
 
-// doc ready
+// doc ready ----------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
 	form.addEventListener("submit", ev => {
 		newUser(ev);
 	});
-	// setupGame();
 });
-
-const newUser = function(ev) {
-	ev.preventDefault();
-
-	let username = document.getElementById("username").value;
-	let playerData = { username: username };
-	let headers = {
-		Accept: "application/json",
-		"Content-Type": "application/json"
-	};
-	fetch(playerURL, {
-		method: "post",
-		body: JSON.stringify(playerData),
-		headers: headers
-	})
-		.then(res => res.json())
-		.then(json => {
-			currentUser = json.username;
-			setupGame();
-		});
-};
