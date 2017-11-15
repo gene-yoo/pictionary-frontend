@@ -23,14 +23,14 @@ let currentPlayerUsername;
 let currentPlayerId;
 let currentDrawerId;
 
-// let playerURL = "https://pictionaryapi.herokuapp.com/api/v1/players";
-// let gamesURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
-// let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
-// let messagesURL = "https://pictionaryapi.herokuapp.com/api/v1/messages/";
-let playerURL = "http://localhost:3000/api/v1/players";
-let gamesURL = "http://localhost:3000/api/v1/games/";
-let imagesURL = "http://localhost:3000/api/v1/images/";
-let messagesURL = "http://localhost:3000/api/v1/messages/";
+let playerURL = "https://pictionaryapi.herokuapp.com/api/v1/players";
+let gamesURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
+let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
+let messagesURL = "https://pictionaryapi.herokuapp.com/api/v1/messages/";
+// let playerURL = "http://localhost:3000/api/v1/players";
+// let gamesURL = "http://localhost:3000/api/v1/games/";
+// let imagesURL = "http://localhost:3000/api/v1/images/";
+// let messagesURL = "http://localhost:3000/api/v1/messages/";
 
 // game setup ----------------------------------------------------------------
 
@@ -51,7 +51,6 @@ const newUser = function(ev) {
 	})
 		.then(res => res.json())
 		.then(json => {
-			debugger;
 			currentPlayerUsername = json.username;
 			currentPlayerId = json.id;
 			setupGame();
@@ -68,9 +67,7 @@ const setupGame = function() {
 };
 
 const drawCanvas = function() {
-	// context.fillStyle = "rgb(200,0,0)";
 	context.strokeRect(0, 0, 490, 220, 490, 0);
-	// console.log(context)
 };
 
 // event listeners ----------------------------------------------------------------
@@ -119,7 +116,7 @@ const handleMouseLeave = function(ev) {
 const handleMessageSubmit = function(ev) {
 	ev.preventDefault();
 	let text = messageText.value;
-	console.log(text);
+	messageForm.reset();
 	submitMessage(text);
 };
 
@@ -194,11 +191,7 @@ const submitImage = function() {
 const getGameInfo = function() {
 	fetch(gamesURL + currentGameId)
 		.then(res => res.json())
-		.then(res => {
-			renderImage(res);
-			renderMessages(res);
-			renderKeyword(res);
-		});
+		.then(res => renderGameInfo(res));
 };
 
 const submitMessage = function(text) {
@@ -220,18 +213,38 @@ const submitMessage = function(text) {
 		headers: headers
 	})
 		.then(res => res.json())
-		.then(res => console.log(res));
+		.then(res => checkMessage(res));
+};
+
+const checkMessage = function(res) {
+	console.log(res);
+	if (res.guessed_correctly) {
+		alert("It's true!!!!!");
+	}
 };
 
 // render objects ----------------------------------------------------------------
 
-const renderKeyword = function(res) {
+const renderGameInfo = function(res) {
 	console.log(res);
-	keyword.innerText = res.currentKeyword;
+	currentDrawerId = res.currentDrawerId;
+	currentImageId = res.currentImageId;
+	currentKeyword = res.currentKeyword;
+	renderMessages(res);
+	renderGamePrompt(res);
+};
+
+const renderGamePrompt = function(res) {
+	console.log(res);
+	if (currentDrawerId !== currentPlayerId) {
+		keyword.innerText = `Current Drawer Id is ${currentDrawerId}.`;
+		renderImage(res);
+	} else {
+		keyword.innerText = `You are the drawer! Keyword is: ${res.currentKeyword}`;
+	}
 };
 
 const renderImage = function(res) {
-	console.log(res);
 	canvas.setAttribute("hidden", true);
 	image.removeAttribute("hidden");
 	image.dataset.game_id = res.id;
