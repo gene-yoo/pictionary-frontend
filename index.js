@@ -220,7 +220,22 @@ const checkMessage = function(res) {
 	console.log(res);
 	if (res.guessed_correctly) {
 		alert("It's true!!!!!");
+		updateDrawer();
 	}
+};
+
+const updateDrawer = function() {
+	let body = { player_id: currentPlayerId };
+	let headers = {
+		Accept: "application/json",
+		"Content-Type": "application/json"
+	};
+
+	fetch(gamesURL + currentGameId, {
+		method: 'patch',
+		body: JSON.stringify(body),
+		headers: headers
+	}.then(res => res.json()).then(res => console.log(res))
 };
 
 // render objects ----------------------------------------------------------------
