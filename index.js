@@ -3,6 +3,7 @@ let canvas = document.getElementById("canvas");
 
 let main = document.getElementById("main");
 let form = document.getElementById("new_user");
+let keyword = document.getElementById("keyword");
 let image = document.getElementById("image");
 
 let messageForm = document.getElementById("message_form");
@@ -17,16 +18,18 @@ let xClicks = [];
 let yClicks = [];
 let dragClicks = [];
 
-let currentUser;
-let currentUserId;
-// let playerURL = "https://pictionaryapi.herokuapp.com/api/v1/players";
-// let gamesURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
-// let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
-// let messagesURL = "https://pictionaryapi.herokuapp.com/api/v1/messages/";
-let playerURL = "http://localhost:3000/api/v1/players";
-let gamesURL = "http://localhost:3000/api/v1/games/";
-let imagesURL = "http://localhost:3000/api/v1/images/";
-let messagesURL = "http://localhost:3000/api/v1/messages/";
+let currentGameId = 1;
+let currentPlayerUsername;
+let currentPlayerId;
+
+let playerURL = "https://pictionaryapi.herokuapp.com/api/v1/players";
+let gamesURL = "https://pictionaryapi.herokuapp.com/api/v1/games/";
+let imagesURL = "https://pictionaryapi.herokuapp.com/api/v1/images/";
+let messagesURL = "https://pictionaryapi.herokuapp.com/api/v1/messages/";
+// let playerURL = "http://localhost:3000/api/v1/players";
+// let gamesURL = "http://localhost:3000/api/v1/games/";
+// let imagesURL = "http://localhost:3000/api/v1/images/";
+// let messagesURL = "http://localhost:3000/api/v1/messages/";
 
 // game setup ----------------------------------------------------------------
 
@@ -46,8 +49,8 @@ const newUser = function(ev) {
 	})
 		.then(res => res.json())
 		.then(json => {
-			currentUser = json.username;
-			currentUserId = json.id;
+			currentPlayerUsername = json.username;
+			currentPlayerId = json.id;
 			setupGame();
 		});
 };
@@ -152,8 +155,7 @@ const redraw = function() {
 const createNewImage = function() {
 	let dataURL = canvas.toDataURL();
 	console.log("dataURL:", dataURL);
-	let gameId = 1;
-	let drawing = { data_url: dataURL, game_id: gameId };
+	let drawing = { data_url: dataURL, game_id: currentGameId };
 	let headers = {
 		Accept: "application/json",
 		"Content-Type": "application/json"
@@ -172,8 +174,7 @@ const createNewImage = function() {
 
 const submitImage = function() {
 	let dataURL = canvas.toDataURL();
-	let gameId = 1;
-	let drawing = { data_url: dataURL, game_id: gameId };
+	let drawing = { data_url: dataURL, game_id: currentGameId };
 	let headers = {
 		Accept: "application/json",
 		"Content-Type": "application/json"
@@ -188,19 +189,22 @@ const submitImage = function() {
 };
 
 const getGameInfo = function() {
-	let gameId = 1;
-	fetch(gamesURL + gameId)
+	fetch(gamesURL + currentGameId)
 		.then(res => res.json())
 		.then(res => {
 			renderImage(res);
 			renderMessages(res);
+			renderKeyword(res);
 		});
 };
 
 const submitMessage = function(text) {
-	let gameId = 1;
 	let content = {
-		message: { content: text, game_id: gameId, player_id: currentUserId }
+		message: {
+			content: text,
+			game_id: currentGameId,
+			player_id: currentPlayerId
+		}
 	};
 	let headers = {
 		Accept: "application/json",
@@ -213,10 +217,15 @@ const submitMessage = function(text) {
 		headers: headers
 	})
 		.then(res => res.json())
-		.then(res => console.log(res.guessed_correctly));
+		.then(res => console.log(res));
 };
 
 // render objects ----------------------------------------------------------------
+
+const renderKeyword = function(res) {
+	console.log(res);
+	keyword.innerText = res.currentKeyword;
+};
 
 const renderImage = function(res) {
 	console.log(res);
