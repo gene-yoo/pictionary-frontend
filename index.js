@@ -243,6 +243,10 @@ const renderMessages = function(res) {
 		.join("")}</ul>`;
 };
 
+const renderKeyword = function(res) {
+	keyword.innerText = res.currentKeyword;
+};
+
 // doc ready ----------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
