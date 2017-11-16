@@ -233,10 +233,31 @@ const submitMessage = function(text) {
 		.then(res => checkMessage(res));
 };
 
+// const submitCorrectMessage = function(text) {
+// 	let content = {
+// 		message: {
+// 			content: text,
+// 			game_id: currentGameId,
+// 			player_id: currentPlayerId
+// 		}
+// 	};
+// 	let headers = {
+// 		Accept: "application/json",
+// 		"Content-Type": "application/json"
+// 	};
+//
+// 	fetch(messagesURL, {
+// 		method: "post",
+// 		body: JSON.stringify(content),
+// 		headers: headers
+// 	})
+// }
+
 const checkMessage = function(res) {
 	// console.log(res);
 	if (res.guessed_correctly) {
 		alert("It's true!!!!!");
+		submitMessage("Guessed Correctly");
 		updateDrawer();
 	}
 };
@@ -296,7 +317,13 @@ const renderImage = function(res) {
 const renderMessages = function(res) {
 	let messages = res.recentMessages;
 	allMessages.innerHTML = `<ul>${messages
-		.map(msg => `<li>${msg.player_username} - ${msg.content}</li>`)
+		.map(msg => {
+			if (msg.content === "Guessed Correctly") {
+				return `${msg.player_username} has guessed correctly!`;
+			} else {
+				return `<li>${msg.player_username} - ${msg.content}</li>`;
+			}
+		})
 		.join("")}</ul>`;
 };
 
