@@ -37,12 +37,12 @@
       </div>
     </div>
 
-    <div class="ui two wide grid">
-      <div id="main" class="" hidden>
+    <div class="ui two column grid container">
+      <div id="main" class="column" hidden>
         <h1>Canvas</h1>
         <h2 id="keyword"></h2>
-        <canvas id="canvas" width="490" height="220"></canvas>
-        <img id="image" width="490" height="220" hidden>
+        <canvas id="canvas" width="490" height="600"></canvas>
+        <img id="image" width="490" height="600" hidden>
         <br>
         <button type="button" name="button" onclick="clearCanvas()">Clear Canvas</button>
         <br>
@@ -57,17 +57,37 @@
           </div>
       </div>
 
-      <div id="chatroom" class="center" hidden>
-        <h1>Chatroom</h1>
-        <div id="all_messages">
-          <ul>
-          </ul>
-        </div>
-        <div id="message">
-          <form id="message_form" class="" action="index.html" method="post">
-            <input id="message_text" type="text" name="" value="">
-            <button type="submit" name="button">Send</button>
-          </form>
+      <div id="chatroom" class="column" hidden>
+        <div class="vertically divided grid">
+
+          <div class="row">
+            <h1>Current Players</h1>
+            <div class="grid all_players">
+              <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/jenny.jpg">
+              <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
+              <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/joe.jpg">
+              <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/christian.jpg">
+              <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/daniel.jpg">
+            </div>
+          </div>
+
+          <div class="ui divider"></div>
+
+          <div class="row">
+            <h1>Chatroom</h1>
+            <div id="all_messages">
+              <ul>
+              </ul>
+            </div>
+            <div id="message">
+              <form id="message_form" class="" action="index.html" method="post">
+                <input id="message_text" type="text" name="" value="">
+                <button type="submit" name="button">Send</button>
+              </form>
+            </div>
+          </div>
+
+
         </div>
       </div>
     </div>

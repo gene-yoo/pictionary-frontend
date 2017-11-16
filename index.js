@@ -68,19 +68,11 @@ const setupGame = function() {
 	chatroom.removeAttribute("hidden");
 	signin.remove();
 
-	drawCanvas();
 	addListeners();
 };
 
-const drawCanvas = function() {
-	context.strokeStyle = "black";
-	context.lineWidth = 2;
-	context.strokeRect(0, 0, 490, 220);
-};
-
 const clearCanvas = function() {
-	context.clearRect(0, 0, 490, 220);
-	drawCanvas();
+	context.clearRect(0, 0, 490, 600);
 	submitImage();
 };
 

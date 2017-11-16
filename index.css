@@ -24,3 +24,11 @@
 	min-width: 100%;
 	background-color: #cce2ff;
 }
+
+canvas {
+	border: 1px black solid;
+}
+
+.player {
+	max-width: 50px;
+}
