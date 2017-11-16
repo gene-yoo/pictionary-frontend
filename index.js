@@ -5,6 +5,7 @@ let main = document.getElementById("main");
 let form = document.getElementById("new_user");
 let keyword = document.getElementById("keyword");
 let image = document.getElementById("image");
+let signin = document.getElementById("signin");
 
 let messageForm = document.getElementById("message_form");
 let messageText = document.getElementById("message_text");
@@ -61,7 +62,7 @@ const newUser = function(ev) {
 const setupGame = function() {
 	main.removeAttribute("hidden");
 	chatroom.removeAttribute("hidden");
-	form.setAttribute("hidden", true);
+	signin.remove();
 
 	drawCanvas();
 	addListeners();

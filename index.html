@@ -3,20 +3,39 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.js"></script>
     <link rel="stylesheet" href="index.css">
   </head>
   <body>
-    <div>
-      <form id="new_user">
-        <label for="username">Enter a Username to Play: </label>
-        <input id="username" type="text" name="username" placeholder="Enter a Username">
-        <label for="game">Choose a Game to Join: </label>
-        <select id="game" name="game">
-          <option value="1">1</option>
-        </select>
-        <button type="submit" name="submit">Submit</button>
-      </form>
+    
+    <div class="ui middle aligned center aligned grid landing" id="signin">
+      <div class='login column'>
+        <form class='ui large form' id="new_user" >
+          <div class="ui stacked segment">
+            <div class="field">
+              <label for="username">Enter a Username to Play: </label>
+              <div class="ui left icon input">
+                <input id="username" type="text" name="username" placeholder="Enter a Username">
+                <i class="user icon"></i>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="game">Choose a Game to Join: </label>
+              <div class="ui left icon input">
+                <select class="ui dropdown" id="game">
+                  <option value="1">1</option>
+                </select>
+              </div>
+            </div>
+            <button class='ui fluid blue submit button' type="submit" name="submit">Submit</button>
+          </div>
+        </form>
+      </div>
     </div>
+
     <div id="main" hidden>
       <h1>Canvas</h1>
       <h2 id="keyword"></h2>
