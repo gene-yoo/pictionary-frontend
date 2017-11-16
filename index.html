@@ -3,62 +3,60 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <!-- <link rel="stylesheet" href="index.css"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
-    <!-- <script src="//cdn.quncrm.com/dist/omnisocials-vendor.min.js"></script>
-    <script src="//cdn.quncrm.com/dist/angular-omnisocials.min.js"></script> -->
-    <script src="jscolor.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.css">
+    <link rel="stylesheet" href="index.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="range.js"></script>
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.js"></script>
+    <script src="jscolor.min.js"></script>
   </head>
   <body>
 
+    <div class="ui middle aligned center aligned grid landing" id="signin">
+      <div class='login column'>
+        <form class='ui large form' id="new_user" >
+          <div class="ui stacked segment">
+            <div class="field">
+              <label for="username">Enter a Username to Play: </label>
+              <div class="ui left icon input">
+                <input id="username" type="text" name="username" placeholder="Enter a Username">
+                <i class="user icon"></i>
+              </div>
+            </div>
 
-    <div>
-      <form id="new_user">
-        <label for="username">Enter a Username to Play: </label>
-        <input id="username" type="text" name="username" placeholder="Enter a Username">
-        <label for="game">Choose a Game to Join: </label>
-        <select id="game" name="game">
-          <option value="1">1</option>
-        </select>
-        <button type="submit" name="submit">Submit</button>
-      </form>
+            <div class="field">
+              <label for="game">Choose a Game to Join: </label>
+              <div class="ui left icon input">
+                <select class="ui dropdown" id="game">
+                  <option value="1">1</option>
+                </select>
+              </div>
+            </div>
+            <button class='ui fluid blue submit button' type="submit" name="submit">Submit</button>
+          </div>
+        </form>
+      </div>
     </div>
+
     <div id="main" hidden>
       <h1>Canvas</h1>
       <h2 id="keyword"></h2>
       <canvas id="canvas" width="490" height="220"></canvas>
       <img id="image" width="490" height="220" hidden>
       <br>
-      <button type="button" name="button" onclick="createNewImage()">Create New Image</button>
-      <button type="button" name="button" onclick="submitImage()">Submit Image</button>
-      <button type="button" name="button" onclick="getGameInfo()">Update Game Info</button>
       <button type="button" name="button" onclick="clearCanvas()">Clear Canvas</button>
       <br>
       <div id="colorpicker">
         Pick a Color: <input id="color" class="jscolor" value="ab2567">
-
-        Pen Size: <div id="slidecontainer">
-            <input type="range" min="1" max="30" value="10" class="slider" id="myRange">
-            <input type="text" id="demo" value="">
+        <br>
+        <div id="slidecontainer">Pen Size:
+          <input type="range" min="1" max="30" value="10" class="slider" id="myRange">
+          <input type="text" id="demo" value="">
           </div>
           <br>
-          <!-- <div class="ui input">
-            <input type="text" id="input-2">
-          </div> -->
         </div>
-
-      </div>
-
-      <div>
-        <os-color-picker ng-model="ctrl.color"></os-color-picker>
-      </div>
     </div>
-
-    <br>
+    
     <div id="chatroom" class="center" hidden>
       <h1>Chatroom</h1>
       <div id="all_messages">

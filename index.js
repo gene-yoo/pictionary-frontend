@@ -8,6 +8,7 @@ let main = document.getElementById("main");
 let form = document.getElementById("new_user");
 let keyword = document.getElementById("keyword");
 let image = document.getElementById("image");
+let signin = document.getElementById("signin");
 
 let messageForm = document.getElementById("message_form");
 let messageText = document.getElementById("message_text");
@@ -65,7 +66,7 @@ const newUser = function(ev) {
 const setupGame = function() {
 	main.removeAttribute("hidden");
 	chatroom.removeAttribute("hidden");
-	form.setAttribute("hidden", true);
+	signin.remove();
 
 	drawCanvas();
 	addListeners();
@@ -177,7 +178,7 @@ const getCurrentColor = function() {
 
 const createNewImage = function() {
 	let dataURL = canvas.toDataURL();
-	console.log("dataURL:", dataURL);
+	// console.log("dataURL:", dataURL);
 	let drawing = { data_url: dataURL, game_id: currentGameId };
 	let headers = {
 		Accept: "application/json",
@@ -190,8 +191,9 @@ const createNewImage = function() {
 	})
 		.then(res => res.json())
 		.then(res => {
-			console.log(res);
+			// console.log(res);
 			currentImageId = res.id;
+			clearCanvas();
 		});
 };
 
@@ -240,7 +242,7 @@ const submitMessage = function(text) {
 };
 
 const checkMessage = function(res) {
-	console.log(res);
+	// console.log(res);
 	if (res.guessed_correctly) {
 		alert("It's true!!!!!");
 		updateDrawer();
@@ -262,15 +264,16 @@ const updateDrawer = function() {
 		.then(res => res.json())
 		.then(res => {
 			canvas.removeAttribute("hidden");
+			colorpicker.removeAttribute("hidden");
 			image.setAttribute("hidden", true);
-			clearCanvas();
+			createNewImage();
 		});
 };
 
 // render objects ----------------------------------------------------------------
 
 const renderGameInfo = function(res) {
-	console.log(res);
+	// console.log(res);
 	currentDrawerId = res.currentDrawerId;
 	currentDrawerUsername = res.currentDrawerUsername;
 	currentImageId = res.currentImageId;
@@ -280,7 +283,7 @@ const renderGameInfo = function(res) {
 };
 
 const renderGamePrompt = function(res) {
-	console.log(res);
+	// console.log(res);
 	if (currentDrawerId !== currentPlayerId) {
 		keyword.innerText = `Current Drawer is ${currentDrawerUsername}.`;
 		renderImage(res);
@@ -316,7 +319,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const handleSlider = function() {
-	console.log(slider);
+	// console.log(slider);
 	slider = document.getElementById("myRange");
 	sliderValue.value = slider.value; // Display the default slider value
 };
