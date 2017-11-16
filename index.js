@@ -233,26 +233,6 @@ const submitMessage = function(text) {
 		.then(res => checkMessage(res));
 };
 
-// const submitCorrectMessage = function(text) {
-// 	let content = {
-// 		message: {
-// 			content: text,
-// 			game_id: currentGameId,
-// 			player_id: currentPlayerId
-// 		}
-// 	};
-// 	let headers = {
-// 		Accept: "application/json",
-// 		"Content-Type": "application/json"
-// 	};
-//
-// 	fetch(messagesURL, {
-// 		method: "post",
-// 		body: JSON.stringify(content),
-// 		headers: headers
-// 	})
-// }
-
 const checkMessage = function(res) {
 	// console.log(res);
 	if (res.guessed_correctly) {
