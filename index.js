@@ -74,6 +74,7 @@ const drawCanvas = function() {
 const clearCanvas = function() {
 	context.clearRect(0, 0, 490, 220);
 	drawCanvas();
+	submitImage();
 };
 
 // event listeners ----------------------------------------------------------------
@@ -150,6 +151,7 @@ const redraw = function() {
 		context.closePath();
 		context.stroke();
 	}
+	submitImage();
 };
 
 // const setCurrentColor = function(color) {
@@ -292,6 +294,7 @@ const renderMessages = function(res) {
 document.addEventListener("DOMContentLoaded", () => {
 	form.addEventListener("submit", ev => {
 		newUser(ev);
-		setInterval(getGameInfo(), 1000);
+		setInterval(getGameInfo, 100);
+		// setInterval(submitImage, 100);
 	});
 });
