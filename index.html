@@ -39,19 +39,25 @@
 
     <div class="ui two column grid container">
       <div id="main" class="column" hidden>
-        <h1>Canvas</h1>
-        <h2 id="keyword"></h2>
+        <h1 class="ui header">Canvas</h1>
+        <h3 id="keyword" class="ui header"></h3>
         <canvas id="canvas" width="490" height="600"></canvas>
         <img id="image" width="490" height="600" class="border" hidden>
         <div id="canvasTools">
-          <button type="button" name="button" onclick="clearCanvas()">Clear Canvas</button>
-          <button type="button" name="button" onclick="createNewImage()">Skip</button>
-          <br>
-          <br>Pick a Color: <input id="color" class="jscolor" value="ab2567">
-          <br>
-          <div id="slidecontainer">Pen Size:
-            <input type="range" min="1" max="30" value="10" class="slider" id="myRange">
-            <input type="text" id="demo" value="">
+          <div class="row">
+            <div class="eight wide column">
+              <button class="ui button" type="button" name="button" onclick="clearCanvas()"> Reset </button>
+              <button class="ui button" type="button" name="button" onclick="createNewImage()"> Skip </button>
+
+                <strong>Color:  </strong><input id="color" class="jscolor" value="#000" size="8">
+
+                <strong>Size:  </strong>
+                <input class="ui range" type="range" min="1" max="30" value="10" class="slider" id="myRange" >
+                <input class="ui field" type="text" id="demo" value="" size="2">
+
+            </div>
+
+
           </div>
         </div>
       </div>
@@ -59,33 +65,28 @@
       <div id="sidebar" class="column" hidden>
         <div class="vertically divided grid">
 
-          <div class="row" id="currentPlayers" >
+          <div class="row">
             <h1>Current Players</h1>
-            <div class="grid all_players">
-              <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/jenny.jpg">
-              <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/elliot.jpg">
-              <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/joe.jpg">
-              <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/christian.jpg">
-              <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/daniel.jpg">
-            </div>
+            <div id="currentPlayers" class="grid all_players"></div>
           </div>
 
           <div class="ui divider"></div>
 
           <div class="row" id="chatroom">
             <h1>Chatroom</h1>
-            <div id="allMessages">
-              <ul>
-              </ul>
-            </div>
+            <div id="allMessages" class="ui feed"></div>
+            <div class="ui divider"></div>
             <div id="message">
-              <form id="message_form" class="" action="index.html" method="post">
-                <input id="message_text" type="text" name="" value="">
-                <button type="submit" name="button">Send</button>
+              <form id="message_form" class="ui form" action="index.html" method="post">
+                <div class="inline fields">
+                  <div class="field">
+                    <input id="message_text" type="text" placeholder="Take a guess!">
+                  </div>
+                  <button class='ui blue submit button' type="submit" name="submit">Send</button>
+                </div>
               </form>
             </div>
           </div>
-
         </div>
       </div>
     </div>

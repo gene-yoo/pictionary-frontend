@@ -1,6 +1,10 @@
 #allMessages {
 	width: 490px;
 	height: 550px;
+	border: 1px black black;
+}
+
+canvas {
 	border: 1px black solid;
 }
 
@@ -19,14 +23,14 @@
 	background-color: #cce2ff;
 }
 
-canvas {
-	border: 1px black solid;
-}
-
 .player {
 	max-width: 50px;
 }
 
 .border {
 	border: 1px black solid;
+}
+
+.correct {
+	color: #38ab0d;
 }

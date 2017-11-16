@@ -14,6 +14,7 @@ let messageForm = document.getElementById("message_form");
 let messageText = document.getElementById("message_text");
 let allMessages = document.getElementById("allMessages");
 let sidebar = document.getElementById("sidebar");
+let currentPlayers = document.getElementById("currentPlayers");
 
 let currentImageId;
 let currentColor = `#${document.getElementById("color").value}`;
@@ -208,7 +209,11 @@ const submitImage = function() {
 const getGameInfo = function() {
 	fetch(gamesURL + currentGameId)
 		.then(res => res.json())
-		.then(res => renderGameInfo(res));
+		.then(res => {
+			console.log(res);
+			renderNumPlayers(res.num_players);
+			renderGameInfo(res);
+		});
 };
 
 const submitMessage = function(text) {
@@ -230,28 +235,11 @@ const submitMessage = function(text) {
 		headers: headers
 	})
 		.then(res => res.json())
-		.then(res => checkMessage(res));
+		.then(res => {
+			console.log(res);
+			checkMessage(res);
+		});
 };
-
-// const submitCorrectMessage = function(text) {
-// 	let content = {
-// 		message: {
-// 			content: text,
-// 			game_id: currentGameId,
-// 			player_id: currentPlayerId
-// 		}
-// 	};
-// 	let headers = {
-// 		Accept: "application/json",
-// 		"Content-Type": "application/json"
-// 	};
-//
-// 	fetch(messagesURL, {
-// 		method: "post",
-// 		body: JSON.stringify(content),
-// 		headers: headers
-// 	})
-// }
 
 const checkMessage = function(res) {
 	// console.log(res);
@@ -316,15 +304,24 @@ const renderImage = function(res) {
 
 const renderMessages = function(res) {
 	let messages = res.recentMessages;
-	allMessages.innerHTML = `<ul>${messages
+	allMessages.innerHTML = `${messages
 		.map(msg => {
 			if (msg.content === "Guessed Correctly") {
-				return `${msg.player_username} has guessed correctly!`;
+				return `<div class="event"><div class="label"><i class="extra large trophy icon"></i>
+</div><div class="content correct"><strong>${msg.player_username} guessed correctly!</strong></div></div>`;
 			} else {
-				return `<li>${msg.player_username} - ${msg.content}</li>`;
+				return `<div class="event"><div class="label"><i class="extra large child icon">
+</i></div><div class="content">${msg.player_username} guessed "${msg.content}"</div></div>`;
 			}
 		})
-		.join("")}</ul>`;
+		.join("")}`;
+};
+
+const renderNumPlayers = function(num) {
+	currentPlayers.innerHTML = ``;
+	for (let i = 0; i < num; i++) {
+		currentPlayers.innerHTML += `<i class="extra large child icon"></i>`;
+	}
 };
 
 // doc ready ----------------------------------------------------------------
