@@ -73,6 +73,7 @@ const setupGame = function() {
 
 const drawCanvas = function() {
 	context.strokeStyle = "black";
+	context.lineWidth = 2;
 	context.strokeRect(0, 0, 490, 220);
 };
 
