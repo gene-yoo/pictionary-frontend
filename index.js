@@ -306,7 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	form.addEventListener("submit", ev => {
 		newUser(ev);
 		handleSlider();
-		setInterval(getGameInfo, 50);
+		setInterval(getGameInfo, 2000);
 	});
 });
 
