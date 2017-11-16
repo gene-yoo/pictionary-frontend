@@ -292,6 +292,7 @@ const renderMessages = function(res) {
 document.addEventListener("DOMContentLoaded", () => {
 	form.addEventListener("submit", ev => {
 		newUser(ev);
-		setInterval(getGameInfo(), 1000);
+		setInterval(getGameInfo, 50);
+		// setInterval(submitImage, 50);
 	});
 });
