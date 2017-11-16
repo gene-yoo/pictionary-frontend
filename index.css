@@ -1,17 +1,11 @@
-#chatroom {
+#allMessages {
 	width: 490px;
-	height: 220px;
-	background-color: white;
+	height: 550px;
+	border: 1px black solid;
 }
 
 .chat {
 	display: block;
-}
-
-#all_messages {
-	width: 490px;
-	height: 200px;
-	background-color: linen;
 }
 
 .login {
@@ -31,4 +25,8 @@ canvas {
 
 .player {
 	max-width: 50px;
+}
+
+.border {
+	border: 1px black solid;
 }

@@ -42,25 +42,24 @@
         <h1>Canvas</h1>
         <h2 id="keyword"></h2>
         <canvas id="canvas" width="490" height="600"></canvas>
-        <img id="image" width="490" height="600" hidden>
+        <img id="image" width="490" height="600" class="border" hidden>
         <div id="canvasTools">
           <button type="button" name="button" onclick="clearCanvas()">Clear Canvas</button>
           <button type="button" name="button" onclick="createNewImage()">Skip</button>
           <br>
-          Pick a Color: <input id="color" class="jscolor" value="ab2567">
+          <br>Pick a Color: <input id="color" class="jscolor" value="ab2567">
           <br>
           <div id="slidecontainer">Pen Size:
             <input type="range" min="1" max="30" value="10" class="slider" id="myRange">
             <input type="text" id="demo" value="">
-            </div>
-            <br>
           </div>
+        </div>
       </div>
 
-      <div id="chatroom" class="column" hidden>
+      <div id="sidebar" class="column" hidden>
         <div class="vertically divided grid">
 
-          <div class="row">
+          <div class="row" id="currentPlayers" >
             <h1>Current Players</h1>
             <div class="grid all_players">
               <img class="ui avatar image" src="https://semantic-ui.com/images/avatar/small/jenny.jpg">
@@ -73,9 +72,9 @@
 
           <div class="ui divider"></div>
 
-          <div class="row">
+          <div class="row" id="chatroom">
             <h1>Chatroom</h1>
-            <div id="all_messages">
+            <div id="allMessages">
               <ul>
               </ul>
             </div>
@@ -86,7 +85,6 @@
               </form>
             </div>
           </div>
-
 
         </div>
       </div>

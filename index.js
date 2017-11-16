@@ -12,8 +12,8 @@ let signin = document.getElementById("signin");
 
 let messageForm = document.getElementById("message_form");
 let messageText = document.getElementById("message_text");
-let allMessages = document.getElementById("all_messages");
-let chatroom = document.getElementById("chatroom");
+let allMessages = document.getElementById("allMessages");
+let sidebar = document.getElementById("sidebar");
 
 let currentImageId;
 let currentColor = `#${document.getElementById("color").value}`;
@@ -65,7 +65,7 @@ const newUser = function(ev) {
 
 const setupGame = function() {
 	main.removeAttribute("hidden");
-	chatroom.removeAttribute("hidden");
+	sidebar.removeAttribute("hidden");
 	signin.remove();
 
 	addListeners();
