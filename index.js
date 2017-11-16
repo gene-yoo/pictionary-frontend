@@ -12,8 +12,9 @@ let signin = document.getElementById("signin");
 
 let messageForm = document.getElementById("message_form");
 let messageText = document.getElementById("message_text");
-let allMessages = document.getElementById("all_messages");
-let chatroom = document.getElementById("chatroom");
+let allMessages = document.getElementById("allMessages");
+let sidebar = document.getElementById("sidebar");
+let scoreboard = document.getElementById("scoreboard");
 
 let currentImageId;
 let currentColor = `#${document.getElementById("color").value}`;
@@ -65,7 +66,7 @@ const newUser = function(ev) {
 
 const setupGame = function() {
 	main.removeAttribute("hidden");
-	chatroom.removeAttribute("hidden");
+	sidebar.removeAttribute("hidden");
 	signin.remove();
 
 	addListeners();
@@ -208,7 +209,11 @@ const submitImage = function() {
 const getGameInfo = function() {
 	fetch(gamesURL + currentGameId)
 		.then(res => res.json())
-		.then(res => renderGameInfo(res));
+		.then(res => {
+			console.log(res);
+			renderScore(res);
+			renderGameInfo(res);
+		});
 };
 
 const submitMessage = function(text) {
@@ -230,7 +235,10 @@ const submitMessage = function(text) {
 		headers: headers
 	})
 		.then(res => res.json())
-		.then(res => checkMessage(res));
+		.then(res => {
+			console.log(res);
+			checkMessage(res);
+		});
 };
 
 const checkMessage = function(res) {
@@ -296,15 +304,32 @@ const renderImage = function(res) {
 
 const renderMessages = function(res) {
 	let messages = res.recentMessages;
-	allMessages.innerHTML = `<ul>${messages
+	allMessages.innerHTML = `${messages
 		.map(msg => {
 			if (msg.content === "Guessed Correctly") {
-				return `${msg.player_username} has guessed correctly!`;
+				return `<div class="event"><div class="label"><i class="extra large trophy icon"></i>
+</div><div class="content correct"><strong>${msg.player_username} guessed correctly!</strong></div></div>`;
 			} else {
-				return `<li>${msg.player_username} - ${msg.content}</li>`;
+				return `<div class="event"><div class="label"><i class="extra large child icon">
+</i></div><div class="content">${msg.player_username} guessed "${msg.content}"</div></div>`;
 			}
 		})
-		.join("")}</ul>`;
+		.join("")}`;
+};
+
+const renderScore = function(res) {
+	let scores = res.playerScores
+		.filter(player => Object.values(player)[0] > 0)
+		.sort((a, b) => {
+			return parseInt(Object.values(b)[0]) - parseInt(Object.values(a)[0]);
+		});
+	scoreboard.innerHTML = scores
+		.map(player => {
+			return `<p><i class="extra large child icon"></i>${Object.keys(
+				player
+			)[0]} - ${Object.values(player)[0]}</p>`;
+		})
+		.join("");
 };
 
 // doc ready ----------------------------------------------------------------
