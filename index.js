@@ -310,8 +310,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	form.addEventListener("submit", ev => {
 		newUser(ev);
 		handleSlider();
-		// setInterval(getGameInfo, 100);
-		// setInterval(submitImage, 100);
+		setInterval(getGameInfo, 50);
 	});
 });
 
