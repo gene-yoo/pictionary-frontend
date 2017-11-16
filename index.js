@@ -1,5 +1,8 @@
 let context = document.getElementById("canvas").getContext("2d");
 let canvas = document.getElementById("canvas");
+let colorpicker = document.getElementById("colorpicker");
+let slider = document.getElementById("myRange");
+let sliderValue = document.getElementById("demo");
 
 let main = document.getElementById("main");
 let form = document.getElementById("new_user");
@@ -12,7 +15,8 @@ let allMessages = document.getElementById("all_messages");
 let chatroom = document.getElementById("chatroom");
 
 let currentImageId;
-let currentColor = "black";
+let currentColor = `#${document.getElementById("color").value}`;
+let currentPenSize = slider.value;
 let paint = false;
 let xClicks = [];
 let yClicks = [];
@@ -68,6 +72,7 @@ const setupGame = function() {
 };
 
 const drawCanvas = function() {
+	context.strokeStyle = "black";
 	context.strokeRect(0, 0, 490, 220);
 };
 
@@ -88,6 +93,10 @@ const addListeners = function() {
 };
 
 // event handlers ----------------------------------------------------------------
+slider.oninput = function() {
+	sliderValue.value = this.value;
+	currentPenSize = this.value;
+};
 
 const handleMouseDown = function(ev) {
 	// console.log(ev);
@@ -137,9 +146,10 @@ const addClicks = function(x, y, drag) {
 
 const redraw = function() {
 	// context.clearRect(0, 0, canvas.width, canvas.height);
+	getCurrentColor();
 	context.strokeStyle = currentColor;
 	context.lineJoin = "round";
-	context.lineWidth = 5;
+	context.lineWidth = currentPenSize;
 	for (let i = 0; i < xClicks.length; i++) {
 		context.beginPath();
 		if (dragClicks[i] && i) {
@@ -152,6 +162,10 @@ const redraw = function() {
 		context.stroke();
 	}
 	submitImage();
+};
+
+const getCurrentColor = function() {
+	currentColor = `#${document.getElementById("color").value}`;
 };
 
 // const setCurrentColor = function(color) {
@@ -276,6 +290,7 @@ const renderGamePrompt = function(res) {
 
 const renderImage = function(res) {
 	canvas.setAttribute("hidden", true);
+	colorpicker.setAttribute("hidden", true);
 	image.removeAttribute("hidden");
 	image.dataset.game_id = res.id;
 	image.setAttribute("id", res.currentImageId);
@@ -294,7 +309,14 @@ const renderMessages = function(res) {
 document.addEventListener("DOMContentLoaded", () => {
 	form.addEventListener("submit", ev => {
 		newUser(ev);
-		setInterval(getGameInfo, 100);
+		handleSlider();
+		// setInterval(getGameInfo, 100);
 		// setInterval(submitImage, 100);
 	});
 });
+
+const handleSlider = function() {
+	console.log(slider);
+	slider = document.getElementById("myRange");
+	sliderValue.value = slider.value; // Display the default slider value
+};

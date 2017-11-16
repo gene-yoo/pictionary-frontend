@@ -3,9 +3,19 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <link rel="stylesheet" href="index.css">
+    <!-- <link rel="stylesheet" href="index.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <!-- <script src="//cdn.quncrm.com/dist/omnisocials-vendor.min.js"></script>
+    <script src="//cdn.quncrm.com/dist/angular-omnisocials.min.js"></script> -->
+    <script src="jscolor.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="range.js"></script>
+
+
   </head>
   <body>
+
+
     <div>
       <form id="new_user">
         <label for="username">Enter a Username to Play: </label>
@@ -27,7 +37,27 @@
       <button type="button" name="button" onclick="submitImage()">Submit Image</button>
       <button type="button" name="button" onclick="getGameInfo()">Update Game Info</button>
       <button type="button" name="button" onclick="clearCanvas()">Clear Canvas</button>
+      <br>
+      <div id="colorpicker">
+        Pick a Color: <input id="color" class="jscolor" value="ab2567">
+
+        Pen Size: <div id="slidecontainer">
+            <input type="range" min="1" max="30" value="10" class="slider" id="myRange">
+            <input type="text" id="demo" value="">
+          </div>
+          <br>
+          <!-- <div class="ui input">
+            <input type="text" id="input-2">
+          </div> -->
+        </div>
+
+      </div>
+
+      <div>
+        <os-color-picker ng-model="ctrl.color"></os-color-picker>
+      </div>
     </div>
+
     <br>
     <div id="chatroom" class="center" hidden>
       <h1>Chatroom</h1>
@@ -43,5 +73,6 @@
       </div>
     </div>
     <script src = "index.js"></script>
+
   </body>
 </html>
