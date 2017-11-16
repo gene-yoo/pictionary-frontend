@@ -1,6 +1,6 @@
 let context = document.getElementById("canvas").getContext("2d");
 let canvas = document.getElementById("canvas");
-let colorpicker = document.getElementById("colorpicker");
+let canvasTools = document.getElementById("canvasTools");
 let slider = document.getElementById("myRange");
 let sliderValue = document.getElementById("demo");
 
@@ -256,7 +256,7 @@ const updateDrawer = function() {
 		.then(res => res.json())
 		.then(res => {
 			canvas.removeAttribute("hidden");
-			colorpicker.removeAttribute("hidden");
+			canvasTools.removeAttribute("hidden");
 			image.setAttribute("hidden", true);
 			createNewImage();
 		});
@@ -286,7 +286,7 @@ const renderGamePrompt = function(res) {
 
 const renderImage = function(res) {
 	canvas.setAttribute("hidden", true);
-	colorpicker.setAttribute("hidden", true);
+	canvasTools.setAttribute("hidden", true);
 	image.removeAttribute("hidden");
 	image.dataset.game_id = res.id;
 	image.setAttribute("id", res.currentImageId);

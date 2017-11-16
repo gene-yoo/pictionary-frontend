@@ -43,10 +43,10 @@
         <h2 id="keyword"></h2>
         <canvas id="canvas" width="490" height="600"></canvas>
         <img id="image" width="490" height="600" hidden>
-        <br>
-        <button type="button" name="button" onclick="clearCanvas()">Clear Canvas</button>
-        <br>
-        <div id="colorpicker">
+        <div id="canvasTools">
+          <button type="button" name="button" onclick="clearCanvas()">Clear Canvas</button>
+          <button type="button" name="button" onclick="createNewImage()">Skip</button>
+          <br>
           Pick a Color: <input id="color" class="jscolor" value="ab2567">
           <br>
           <div id="slidecontainer">Pen Size:
