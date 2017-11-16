@@ -14,7 +14,7 @@ let messageForm = document.getElementById("message_form");
 let messageText = document.getElementById("message_text");
 let allMessages = document.getElementById("allMessages");
 let sidebar = document.getElementById("sidebar");
-let currentPlayers = document.getElementById("currentPlayers");
+let scoreboard = document.getElementById("scoreboard");
 
 let currentImageId;
 let currentColor = `#${document.getElementById("color").value}`;
@@ -211,7 +211,7 @@ const getGameInfo = function() {
 		.then(res => res.json())
 		.then(res => {
 			console.log(res);
-			renderNumPlayers(res.num_players);
+			renderScore(res);
 			renderGameInfo(res);
 		});
 };
@@ -317,11 +317,19 @@ const renderMessages = function(res) {
 		.join("")}`;
 };
 
-const renderNumPlayers = function(num) {
-	currentPlayers.innerHTML = ``;
-	for (let i = 0; i < num; i++) {
-		currentPlayers.innerHTML += `<i class="extra large child icon"></i>`;
-	}
+const renderScore = function(res) {
+	let scores = res.playerScores
+		.filter(player => Object.values(player)[0] > 0)
+		.sort((a, b) => {
+			return parseInt(Object.values(b)[0]) - parseInt(Object.values(a)[0]);
+		});
+	scoreboard.innerHTML = scores
+		.map(player => {
+			return `<p><i class="extra large child icon"></i>${Object.keys(
+				player
+			)[0]} - ${Object.values(player)[0]}</p>`;
+		})
+		.join("");
 };
 
 // doc ready ----------------------------------------------------------------
