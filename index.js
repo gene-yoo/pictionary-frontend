@@ -303,14 +303,14 @@ const renderImage = function(res) {
 };
 
 const renderMessages = function(res) {
-	let messages = res.recentMessages;
+	let messages = res.recentMessages.sort((a, b) => b.msg_id - a.msg_id);
 	allMessages.innerHTML = `${messages
 		.map(msg => {
 			if (msg.content === "Guessed Correctly") {
-				return `<div class="event"><div class="label"><i class="extra large trophy icon"></i>
+				return `<div class="event"><div class="label"><img class="ui avatar image" src="https://image.flaticon.com/icons/png/512/194/194789.png">
 </div><div class="content correct"><strong>${msg.player_username} guessed correctly!</strong></div></div>`;
 			} else {
-				return `<div class="event"><div class="label"><img class="ui avatar image" src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Robot-512.png"></div><div class="content">${msg.player_username} guessed "${msg.content}"</div></div>`;
+				return `<div class="event"><div class="label"><img class="ui avatar image" src="https://image.flaticon.com/icons/svg/201/201577.svg"></div><div class="content">${msg.player_username} guessed "${msg.content}"</div></div>`;
 			}
 		})
 		.join("")}`;
@@ -321,14 +321,23 @@ const renderScore = function(res) {
 		.filter(player => Object.values(player)[0] > 0)
 		.sort((a, b) => {
 			return parseInt(Object.values(b)[0]) - parseInt(Object.values(a)[0]);
-		});
-	scoreboard.innerHTML = scores
-		.map(player => {
-			return `<div class="event"><div class="label"><img class="ui avatar image" src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Robot-512.png"></div><div class="content">${Object.keys(
-				player
-			)[0]} - ${Object.values(player)[0]}</div></div>`;
 		})
-		.join("");
+		.slice(0, 3);
+
+	let medalIcons = [
+		"https://image.flaticon.com/icons/svg/179/179249.svg",
+		"https://image.flaticon.com/icons/svg/179/179251.svg",
+		"https://image.flaticon.com/icons/svg/179/179250.svg"
+	];
+
+	scoreboard.innerHTML = ``;
+	for (let i = 0; i < scores.length; i++) {
+		scoreboard.innerHTML += `<div class="event"><div class="label"><img class="ui avatar image" src='${medalIcons[
+			i
+		]}'></div><div class="content">${Object.keys(
+			scores[i]
+		)[0]} - ${Object.values(scores[i])[0]}</div></div>`;
+	}
 };
 
 // doc ready ----------------------------------------------------------------

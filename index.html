@@ -66,21 +66,25 @@
           </div>
 
           <div class="ui divider"></div>
+          <br>
 
           <div class="row" id="chatroom">
-            <h1>Chatroom</h1>
+            <div class="ui grid">
+              <h1>Recent Messages</h1>
+              <div id="message">
+                <form id="message_form" class="ui form" action="index.html" method="post">
+                  <div class="inline fields">
+                    <div class="field">
+                      <input id="message_text" type="text" placeholder="Take a guess!">
+                    </div>
+                    <button class='ui blue submit button' type="submit" name="submit">Send</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
             <div id="allMessages" class="ui feed"></div>
             <div class="ui divider"></div>
-            <div id="message">
-              <form id="message_form" class="ui form" action="index.html" method="post">
-                <div class="inline fields">
-                  <div class="field">
-                    <input id="message_text" type="text" placeholder="Take a guess!">
-                  </div>
-                  <button class='ui blue submit button' type="submit" name="submit">Send</button>
-                </div>
-              </form>
-            </div>
           </div>
         </div>
       </div>
