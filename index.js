@@ -9,6 +9,7 @@ let form = document.getElementById("new_user");
 let keyword = document.getElementById("keyword");
 let image = document.getElementById("image");
 let signin = document.getElementById("signin");
+let gameContent = document.getElementById("gameContent");
 
 let messageForm = document.getElementById("message_form");
 let messageText = document.getElementById("message_text");
@@ -71,9 +72,8 @@ const newUser = function(ev) {
 };
 
 const setupGame = function() {
-	main.removeAttribute("hidden");
-	sidebar.removeAttribute("hidden");
 	signin.remove();
+	gameContent.removeAttribute("style");
 
 	addListeners();
 };
@@ -343,7 +343,7 @@ const renderGameInfo = function(res) {
 const renderGamePrompt = function(res) {
 	// console.log(res);
 	if (currentDrawerId !== currentPlayerId) {
-		keyword.innerText = `Current Drawer is ${currentDrawerUsername}.`;
+		keyword.innerText = `${currentDrawerUsername} is currently drawing.`;
 		renderImage(res);
 	} else {
 		keyword.innerText = `You are the drawer! Keyword is: ${res.currentKeyword}`;

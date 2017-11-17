@@ -11,6 +11,7 @@
     <script src="jscolor.min.js"></script>
   </head>
   <body>
+
     <div class="ui middle aligned center aligned grid landing" id="signin">
       <div class='login column'>
         <form class='ui large form' id="new_user" >
@@ -37,60 +38,62 @@
       </div>
     </div>
 
-    <div class="ui two column grid container">
-      <div id="main" class="column" hidden>
-        <h1 class="ui header">Canvas</h1>
-        <h3 id="keyword" class="ui header"></h3>
-        <canvas id="canvas" width="490" height="600"></canvas>
-        <img id="image" width="490" height="600" class="border" hidden>
-        <div id="canvasTools">
-          <div class="row">
-            <div class="eight wide column">
-              <button class="ui button" type="button" name="button" onclick="clearCanvas()"> Reset </button>
-              <button class="ui button" type="button" name="button" onclick="createNewImage()"> Skip </button>
-              <button class="ui button" type="button" name="button" onclick="undoDraw()"> Undo </button>
-
+    <div class="ui middle aligned center aligned container" id="gameContent" style="display:none;">
+      <div class="ui two column grid segment">
+        <div id="main" class="column" hidden>
+          <h1 class="ui header">Canvas</h1>
+          <h3 id="keyword" class="ui header"></h3>
+          <canvas id="canvas" width="490" height="600"></canvas>
+          <img id="image" width="490" height="600" class="border" hidden>
+          <div id="canvasTools">
+            <div class="row">
+              <div class="eight wide column">
+                <button class="ui button" type="button" name="button" onclick="clearCanvas()"> Reset </button>
+                <button class="ui button" type="button" name="button" onclick="createNewImage()"> Skip </button>
+                <button class="ui button" type="button" name="button" onclick="undoDraw()"> Undo </button>
                 <strong>Color:  </strong><input id="color" class="jscolor" value="#000" size="8">
                 <strong>Size:  </strong>
                 <input class="range slider" type="range" min="1" max="30" value="10" class="slider" id="myRange" >
                 <input type="text" id="demo" value="" size="2">
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div id="sidebar" class="column" hidden>
-        <div class="vertically divided grid">
+        <div id="sidebar" class="column" hidden>
+          <div class="vertically divided grid">
 
-          <div class="row">
-            <h1>Scoreboard</h1>
-            <div id="scoreboard" class="ui feed"></div>
-          </div>
-
-          <div class="ui divider"></div>
-          <br>
-
-          <div class="row" id="chatroom">
-            <div class="ui grid">
-              <h1>Recent Messages</h1>
-              <div id="message">
-                <form id="message_form" class="ui form" action="index.html" method="post">
-                  <div class="inline fields">
-                    <div class="field">
-                      <input id="message_text" type="text" placeholder="Take a guess!">
-                    </div>
-                    <button class='ui blue submit button' type="submit" name="submit">Send</button>
-                  </div>
-                </form>
-              </div>
+            <div class="row">
+              <h1 style="text-align:left;">Leaderboard</h1>
+              <div id="scoreboard" class="ui feed"></div>
+              <div class="ui divider"></div>
             </div>
 
-            <div id="allMessages" class="ui feed"></div>
-            <div class="ui divider"></div>
+            <br>
+
+            <div class="row" id="chatroom">
+              <div class="ui grid">
+                <h1>Recent Messages</h1>
+                <div id="message">
+                  <form id="message_form" class="ui form" action="index.html" method="post">
+                    <div class="inline fields">
+                      <div class="field">
+                        <input id="message_text" type="text" placeholder="Take a guess!">
+                      </div>
+                      <button class='ui blue submit button' type="submit" name="submit">Send</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <div id="allMessages" class="ui feed"></div>
+              <div class="ui divider"></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
     <script src = "index.js"></script>
   </body>
 </html>

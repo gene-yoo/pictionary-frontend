@@ -4,7 +4,7 @@
 }
 
 canvas {
-	border: 1px black solid;
+	border: 5px black solid;
 }
 
 .chat {
@@ -27,7 +27,7 @@ canvas {
 }
 
 .border {
-	border: 1px black solid;
+	border: 5px black solid;
 }
 
 .correct {
