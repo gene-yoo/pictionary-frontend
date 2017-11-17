@@ -403,7 +403,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	form.addEventListener("submit", ev => {
 		newUser(ev);
 		handleSlider();
-		setInterval(getGameInfo, 1000);
+		setInterval(getGameInfo, 2000);
 	});
 });
 
