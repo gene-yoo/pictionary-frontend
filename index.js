@@ -310,8 +310,7 @@ const renderMessages = function(res) {
 				return `<div class="event"><div class="label"><i class="extra large trophy icon"></i>
 </div><div class="content correct"><strong>${msg.player_username} guessed correctly!</strong></div></div>`;
 			} else {
-				return `<div class="event"><div class="label"><i class="extra large child icon">
-</i></div><div class="content">${msg.player_username} guessed "${msg.content}"</div></div>`;
+				return `<div class="event"><div class="label"><img class="ui avatar image" src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Robot-512.png"></div><div class="content">${msg.player_username} guessed "${msg.content}"</div></div>`;
 			}
 		})
 		.join("")}`;
@@ -325,9 +324,9 @@ const renderScore = function(res) {
 		});
 	scoreboard.innerHTML = scores
 		.map(player => {
-			return `<p><i class="extra large child icon"></i>${Object.keys(
+			return `<div class="event"><div class="label"><img class="ui avatar image" src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Robot-512.png"></div><div class="content">${Object.keys(
 				player
-			)[0]} - ${Object.values(player)[0]}</p>`;
+			)[0]} - ${Object.values(player)[0]}</div></div>`;
 		})
 		.join("");
 };
