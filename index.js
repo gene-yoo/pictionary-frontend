@@ -203,7 +203,7 @@ const submitImage = function() {
 		headers: headers
 	})
 		.then(res => res.json())
-		.then(res => console.log(res));
+		.then(res => {});
 };
 
 const getGameInfo = function() {
@@ -217,9 +217,15 @@ const getGameInfo = function() {
 };
 
 const submitMessage = function(text) {
+	if (text == currentKeyword) {
+		alert("Correct!");
+		msgContent = `${currentPlayerUsername} guessed correctly! The keyword was "${currentKeyword}"`;
+	} else {
+		msgContent = text;
+	}
 	let content = {
 		message: {
-			content: text,
+			content: msgContent,
 			game_id: currentGameId,
 			player_id: currentPlayerId
 		}
@@ -229,24 +235,24 @@ const submitMessage = function(text) {
 		"Content-Type": "application/json"
 	};
 
-	fetch(messagesURL, {
-		method: "post",
-		body: JSON.stringify(content),
-		headers: headers
-	})
-		.then(res => res.json())
-		.then(res => {
-			console.log(res);
-			checkMessage(res);
+	if (text == currentKeyword) {
+		console.log("submitting a correct guess");
+		fetch(messagesURL, {
+			method: "post",
+			body: JSON.stringify(content),
+			headers: headers
+		})
+			.then(res => res.json())
+			.then(res => {
+				updateDrawer();
+			});
+	} else {
+		console.log("submitting an incorrect guess");
+		fetch(messagesURL, {
+			method: "post",
+			body: JSON.stringify(content),
+			headers: headers
 		});
-};
-
-const checkMessage = function(res) {
-	// console.log(res);
-	if (res.guessed_correctly) {
-		alert("It's true!!!!!");
-		submitMessage("Guessed Correctly");
-		updateDrawer();
 	}
 };
 
@@ -306,9 +312,9 @@ const renderMessages = function(res) {
 	let messages = res.recentMessages;
 	allMessages.innerHTML = `${messages
 		.map(msg => {
-			if (msg.content === "Guessed Correctly") {
+			if (msg.content.includes("guessed correctly!")) {
 				return `<div class="event"><div class="label"><i class="extra large trophy icon"></i>
-</div><div class="content correct"><strong>${msg.player_username} guessed correctly!</strong></div></div>`;
+</div><div class="content correct"><strong>${msg.content}</strong></div></div>`;
 			} else {
 				return `<div class="event"><div class="label"><img class="ui avatar image" src="https://cdn3.iconfinder.com/data/icons/avatars-9/145/Avatar_Robot-512.png"></div><div class="content">${msg.player_username} guessed "${msg.content}"</div></div>`;
 			}
