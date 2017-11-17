@@ -309,8 +309,8 @@ const renderImage = function(res) {
 };
 
 const renderMessages = function(res) {
-	let msgs = res.recentMessages.sort((a, b) => b.msg_id - a.msg_id);
-	allMessages.innerHTML = `${msgs
+	let messages = res.recentMessages.sort((a, b) => b.msg_id - a.msg_id);
+	allMessages.innerHTML = `${messages
 		.map(msg => {
 			if (msg.content.includes("guessed correctly!")) {
 				return `<div class="event"><div class="label"><img class="ui avatar image" src="https://image.flaticon.com/icons/png/512/194/194789.png">
