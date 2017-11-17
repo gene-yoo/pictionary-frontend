@@ -24,6 +24,12 @@ let xClicks = [];
 let yClicks = [];
 let dragClicks = [];
 
+let xHistory = [];
+let yHistory = [];
+let dragHistory = [];
+let penColorHistory = [];
+let penSizeHistory = [];
+
 let currentGameId;
 let currentPlayerUsername;
 let currentPlayerId;
@@ -75,6 +81,11 @@ const setupGame = function() {
 const clearCanvas = function() {
 	context.clearRect(0, 0, 490, 600);
 	submitImage();
+	xHistory = [];
+	yHistory = [];
+	dragHistory = [];
+	penColorHistory = [];
+	penSizeHistory = [];
 };
 
 // event listeners ----------------------------------------------------------------
@@ -102,13 +113,15 @@ const handleMouseDown = function(ev) {
 	var mouseX = ev.offsetX;
 	var mouseY = ev.offsetY;
 	paint = true;
-	addClicks(mouseX, mouseY, false);
+	getCurrentColor();
+	addClicks(mouseX, mouseY, false, currentColor, currentPenSize);
 	redraw();
 };
 
 const handleMouseMove = function(ev) {
 	if (paint) {
-		addClicks(ev.offsetX, ev.offsetY, true);
+		getCurrentColor();
+		addClicks(ev.offsetX, ev.offsetY, true, currentColor, currentPenSize);
 		redraw();
 	}
 };
@@ -133,15 +146,21 @@ const handleMessageSubmit = function(ev) {
 
 // draw functions ----------------------------------------------------------------
 
-const addClicks = function(x, y, drag) {
+const addClicks = function(x, y, drag, penColor, penSize) {
 	xClicks.push(x);
 	yClicks.push(y);
 	dragClicks.push(drag);
+
+	xHistory.push(x);
+	yHistory.push(y);
+	dragHistory.push(drag);
+	penColorHistory.push(penColor);
+	penSizeHistory.push(penSize);
 };
 
 const redraw = function() {
 	// context.clearRect(0, 0, canvas.width, canvas.height);
-	getCurrentColor();
+
 	context.strokeStyle = currentColor;
 	context.lineJoin = "round";
 	context.lineWidth = currentPenSize;
@@ -157,6 +176,38 @@ const redraw = function() {
 		context.stroke();
 	}
 	submitImage();
+};
+
+const undoDraw = function() {
+	context.clearRect(0, 0, 490, 600);
+	paint = true;
+	let cut = dragHistory.lastIndexOf(false);
+
+	context.lineJoin = "round";
+
+	for (let i = 0; i < cut; i++) {
+		context.beginPath();
+		if (dragHistory[i] && i) {
+			context.strokeStyle = penColorHistory[i];
+			context.lineWidth = penSizeHistory[i];
+			context.moveTo(xHistory[i - 1], yHistory[i - 1]);
+		} else {
+			context.strokeStyle = penColorHistory[i];
+			context.lineWidth = penSizeHistory[i];
+			context.moveTo(xHistory[i] - 1, yHistory[i]);
+		}
+		context.lineTo(xHistory[i], yHistory[i]);
+		context.closePath();
+		context.stroke();
+	}
+	submitImage();
+	paint = false;
+
+	xHistory = xHistory.slice(0, cut);
+	yHistory = yHistory.slice(0, cut);
+	dragHistory = dragHistory.slice(0, cut);
+	penColorHistory = penColorHistory.slice(0, cut);
+	penSizeHistory = penSizeHistory.slice(0, cut);
 };
 
 const getCurrentColor = function() {
@@ -210,7 +261,7 @@ const getGameInfo = function() {
 	fetch(gamesURL + currentGameId)
 		.then(res => res.json())
 		.then(res => {
-			console.log(res);
+			// console.log(res);
 			renderScore(res);
 			renderGameInfo(res);
 		});

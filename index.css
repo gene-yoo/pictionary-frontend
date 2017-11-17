@@ -33,3 +33,11 @@ canvas {
 .correct {
 	color: #38ab0d;
 }
+
+.slider {
+	width: 75px;
+}
+
+#demo {
+	border-style: none;
+}
