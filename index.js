@@ -95,6 +95,10 @@ const addListeners = function() {
 	canvas.addEventListener("mousemove", handleMouseMove);
 	canvas.addEventListener("mouseup", handleMouseUp);
 	canvas.addEventListener("mouseleave", handleMouseLeave);
+	canvas.addEventListener("touchstart", handleMouseDown);
+	canvas.addEventListener("touchmove", handleMouseMove);
+	canvas.addEventListener("touchend", handleMouseUp);
+	canvas.addEventListener("touchleave", handleMouseLeave);
 	messageForm.addEventListener("submit", handleMessageSubmit);
 };
 
